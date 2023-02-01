@@ -33,7 +33,7 @@ def main():
 
     fig = px.bar(produtos_vendidos_marca, x='Quantidade', 
     y='Marca', orientation="h", text="Quantidade", 
-    width=400, height=400, title="Total Produtos vendidos por Marca")
+    width=380, height=400, title="Total Produtos vendidos por Marca")
     col1.write(fig)
 
 
