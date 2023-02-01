@@ -42,7 +42,7 @@ def main():
     col2.plotly_chart(fig1)
 
     fig2 = px.line(lucro_mes_categoria, x="mes_ano", y="Lucro", 
-    title='Lucro X Mês X Categoria', width=1000, height=400,
+    title='Lucro X Mês X Categoria', width=900, height=400,
     markers=True, color="Categoria", 
               labels={"mes_ano":"Mês", "Lucro":"Lucro no Mês"})
     st.plotly_chart(fig2)
