@@ -34,7 +34,7 @@ def main():
     fig = px.bar(produtos_vendidos_marca, x='Quantidade', 
     y='Marca', orientation="h", text="Quantidade", 
     width=450, height=400, title="Total Produtos vendidos por Marca")
-    col1.plotly_chart(fig)
+    col1.write(fig)
 
 
     fig1 = px.pie(lucro_categoria, values='Lucro', names='Categoria',
