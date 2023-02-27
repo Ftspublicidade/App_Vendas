@@ -1,6 +1,10 @@
 import pandas as pd
 import plotly.express as px
 import streamlit as st
+import plotly.graph_objects as go
+
+def formatar(valor):
+    return "{:,.2f}".format(valor)
 
 # Lendo a base de dados
 df_vendas = pd.read_excel("Vendas.xlsx")
@@ -14,20 +18,44 @@ df['mes_ano'] = df['Data Venda'].dt.to_period("M").astype(str)
 produtos_vendidos_marca = df.groupby("Marca")["Quantidade"].sum().sort_values(ascending=True).reset_index()
 lucro_categoria = df.groupby("Categoria")["Lucro"].sum().reset_index()
 lucro_mes_categoria = df.groupby(["mes_ano", "Categoria"])["Lucro"].sum().reset_index()
+
+
 def main():
 
     st.title("Análise Vendas")
     st.image("vendas.png")
 
 
+    total_custo = (df["Custo"].sum()).astype(str)
+    total_custo = total_custo.replace(".",",")
+    total_custo = "R$" + total_custo[:2] + "." + total_custo[2:5] + "." + total_custo[5:]
 
-    col1, col2, col3 = st.columns(3)
+    lucro = (df["Lucro"].sum()).astype(str)
+    lucro = lucro.replace(".",",")
+    lucro = "R$" + lucro[:2] + "." + lucro[2:5] + "." + lucro[5:]
+    
+    st.markdown(
+    """
+    <style>
+    [data-testid="stMetricValue"] {
+        font-size: 25px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+    )
+    
+
+    col1, col2, col3 = st.columns(3, gap="medium")
+
     with col1:
-        col1.metric("Total Custo", df["Custo"].sum())
+        st.metric("Total Custo",total_custo)
     with col2:    
-        col2.metric("Lucro", df["Lucro"].sum())
+        col2.metric("Lucro", lucro)
     with col3:
         col3.metric("Total Clientes", df["ID Cliente"].nunique())
+    
+    
 
     col1, col2 = st.columns(2, gap="large")
 
@@ -46,6 +74,12 @@ def main():
     markers=True, color="Categoria", 
               labels={"mes_ano":"Mês", "Lucro":"Lucro no Mês"})
     st.plotly_chart(fig2)
+
+    
+    
+    
+    
+
 
 if __name__ == '__main__':
     main()
